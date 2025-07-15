@@ -25,45 +25,63 @@ function App() {
   };
 
   return (
-    <div className="relative h-screen w-full flex items-center justify-center text-white overflow-hidden">
+    <div className="relative h-screen w-screen overflow-hidden">
+      {/* Fullscreen Background Video */}
       <video
         autoPlay
-        loop
         muted
-        className="absolute w-full h-full object-cover opacity-20"
-        src="/bg.mp4"
-        type="video/mp4"
-      />
-      <div className="z-10 p-8 bg-black bg-opacity-60 rounded-lg shadow-lg max-w-lg w-full">
-        <h1 className="text-3xl font-bold mb-4 text-center">Catalog Assistant</h1>
-        <select
-          className="w-full p-2 mb-4 rounded text-black"
-          onChange={(e) => setProductType(e.target.value)}
-          value={productType}
-        >
-          <option value="farmer">Farmer</option>
-          <option value="artisan">Artisan</option>
-          <option value="kirana">Kirana Store Owner</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Enter product name..."
-          className="w-full p-2 mb-4 rounded text-black"
-          onChange={(e) => setProductName(e.target.value)}
-          value={productName}
-        />
-        <button
-          onClick={generateDescription}
-          className="w-full bg-green-500 hover:bg-green-600 transition-all p-2 rounded"
-        >
-          {loading ? "Generating..." : "Generate Description"}
-        </button>
-        {description && (
-          <div className="mt-4 p-4 bg-white text-black rounded">{description}</div>
-        )}
+        loop
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+      >
+        <source src="/bg.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/40 z-0" />
+
+      {/* Centered Form */}
+      <div className="relative z-10 flex items-center justify-center h-full px-4">
+        <div className="bg-white/90 backdrop-blur-xl p-8 rounded-2xl shadow-2xl max-w-lg w-full">
+          <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">
+            Catalog Assistant
+          </h1>
+
+          <select
+            value={productType}
+            onChange={(e) => setProductType(e.target.value)}
+            className="w-full p-3 mb-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800"
+          >
+            <option value="farmer">Farmer</option>
+            <option value="artisan">Artisan</option>
+            <option value="kirana">Kirana Store Owner</option>
+          </select>
+
+          <input
+            type="text"
+            placeholder="Enter product name..."
+            className="w-full p-3 mb-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+          />
+
+          <button
+            onClick={generateDescription}
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-200"
+          >
+            {loading ? "Generating..." : "Generate Description"}
+          </button>
+
+          {description && (
+            <div className="mt-4 p-4 bg-gray-100 text-gray-800 rounded-lg border border-gray-300 whitespace-pre-line">
+              {description}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 }
 
-export default App;
+export default App;
