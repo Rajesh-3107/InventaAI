@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./App.css"; // Assuming you have Tailwind set up here
-import "./index.css";
+import "./App.css";
 
 function App() {
   const [productType, setProductType] = useState("farmer");
@@ -25,7 +24,7 @@ function App() {
   };
 
   return (
-    <div className="fixed inset-0 overflow-hidden flex items-center justify-center bg-transparent">
+    <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       {/* Background Video */}
       <video
         autoPlay
@@ -38,16 +37,43 @@ function App() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Foreground Content */}
-      <div className="z-10 max-w-lg w-full mx-4 p-10 bg-gradient-to-br from-white via-gray-100 to-gray-200 rounded-3xl shadow-2xl backdrop-blur-lg border border-gray-200 font-sans text-center">
-        <h1 className="text-5xl font-extrabold mb-10 text-gray-900 tracking-wide font-[Poppins]">
+      {/* Glassmorphic Box */}
+      <div
+        className="relative z-10 max-w-lg w-full mx-4 p-10 rounded-3xl 
+          bg-white/20 backdrop-blur-xl border border-white/30
+          shadow-[0_4px_30px_rgba(0,0,0,0.1)]
+          hover:shadow-[0_8px_50px_rgba(0,0,0,0.15)]
+          transition-shadow duration-500
+          animate-float
+          overflow-hidden"
+        style={{
+          // Removed gradient border, keep simple white border
+          borderWidth: "1.5px",
+          borderStyle: "solid",
+        }}
+      >
+        <h1
+          className="text-6xl font-extrabold mb-12 tracking-wider font-[Poppins] drop-shadow-lg bg-clip-text text-transparent"
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #A259FF, #F72585, #720026)",
+          }}
+        >
           Inventa AI
         </h1>
 
         <select
           value={productType}
           onChange={(e) => setProductType(e.target.value)}
-          className="w-full p-4 mb-6 rounded-lg border border-gray-300 bg-white text-black text-lg font-medium focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          className="w-full p-4 mb-8 rounded-xl border border-white/40 bg-white/25
+            text-black font-semibold text-lg
+            focus:outline-none focus:ring-0 focus:border-purple-400
+            shadow-lg
+            transition-all duration-300"
+          style={{
+            boxShadow:
+              "0 2px 10px rgba(165, 94, 255, 0.25)", // subtle purple shadow
+          }}
         >
           <option value="farmer">Farmer</option>
           <option value="artisan">Artisan</option>
@@ -57,25 +83,52 @@ function App() {
         <input
           type="text"
           placeholder="Enter product name..."
-          className="w-full p-4 mb-8 rounded-lg border border-gray-300 bg-white text-black text-lg font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          className="w-full p-4 mb-10 rounded-xl border border-white/40 bg-white/25
+            text-black font-semibold text-lg placeholder-gray-700
+            focus:outline-none focus:ring-0 focus:border-purple-400
+            shadow-lg
+            transition-all duration-300"
           value={productName}
           onChange={(e) => setProductName(e.target.value)}
+          style={{
+            boxShadow:
+              "0 2px 10px rgba(165, 94, 255, 0.25)", // subtle purple shadow
+          }}
         />
 
         <button
           onClick={generateDescription}
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+          className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500
+            font-bold text-white text-lg shadow-xl
+            hover:from-purple-700 hover:to-pink-600
+            active:scale-95
+            transition-transform duration-200"
           disabled={loading}
         >
-          {loading ? "Generating..." : "Generate Description"}
+          {loading ? "Generating..." : "Generate Catalogue"}
         </button>
 
         {description && (
-          <div className="mt-8 p-6 bg-white rounded-xl shadow-inner border border-gray-200 text-gray-900 text-left whitespace-pre-line font-sans text-base">
+          <div className="mt-10 p-6 bg-white/30 rounded-2xl border border-white/40 shadow-inner text-black font-sans text-base whitespace-pre-line">
             {description}
           </div>
         )}
       </div>
+
+      {/* Extra Styles */}
+      <style>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-12px);
+          }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
