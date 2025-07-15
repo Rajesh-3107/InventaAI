@@ -1,0 +1,33 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+FLOWISE_API_URL = os.getenv("FLOWISE_API_URL")
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/api/generate-description', methods=['POST'])
+def generate_description():
+    data = request.json
+    product_type = data.get("productType")
+    product_name = data.get("productName")
+
+    payload = {
+        "productType": product_type,
+        "productName": product_name
+    }
+
+    try:
+        response = requests.post(FLOWISE_API_URL, json=payload)
+        response.raise_for_status()
+        return jsonify({"description": response.json().get("text", "No description generated.")})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
